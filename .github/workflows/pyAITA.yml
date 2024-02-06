@@ -1,8 +1,9 @@
 name: AITA-Python
 
 on:
-  push:
-    branches: ["main"]
+  schedule:
+    # currently scheduled to run every day @ 8 AM PST
+    - cron: "0 18 * * *"
   workflow_dispatch:
 permissions:
   contents: read
@@ -69,5 +70,6 @@ jobs:
           nodetail: true
           title: ${{ needs.build.outputs.title}}
           description: ${{ needs.build.outputs.body}}
-          url: https://github.com/JeremyC3/aita-bot/actions/runs/7805027998/job/21288299921
+          url: ${{ needs.build.outputs.body}}
           username: AITA-Bot
+          avatar_url: ${{ vars.BOT_IMAGE }}
