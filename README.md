@@ -1,6 +1,6 @@
 # aita-bot
 
-Finds most controversial post in /r/amitheasshole in the last 24 hours, and posts the contents to a discord channel of your choosing.
+Fetches most controversial post in /r/amitheasshole in the last 24 hours, and posts the contents to a discord channel of your choosing. Personal project made to use on a friend's discord server.
 
 ## requirements
 
