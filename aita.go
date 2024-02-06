@@ -12,7 +12,13 @@ var ctx = context.Background()
 
 func main() {
     fmt.Println("Hello, World!")
-		client, _ := reddit.NewReadonlyClient()
+		client, err := reddit.NewReadonlyClient()
+		if err != nil {
+			fmt.Printf("error setting up client")
+			fmt.Println(err)
+
+			return
+		}
 		posts, _, err := client.Subreddit.ControversialPosts(ctx, "AmItheAsshole", &reddit.ListPostOptions{
 			ListOptions: reddit.ListOptions{
 				Limit: 1,
@@ -20,6 +26,8 @@ func main() {
 			Time: "day",
 		})
 		if err != nil {
+			fmt.Println("error getting posts")
+			fmt.Println(err)
 			return
 		}
 		
