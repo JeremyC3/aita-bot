@@ -35,7 +35,6 @@ jobs:
         run: |
           pip install praw
           pip install uuid
-          pip install os
       - name: Run Python script
         id: AITA
         run: |
