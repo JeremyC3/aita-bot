@@ -17,9 +17,6 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python: ["3.9", "3.10", "3.11"]
     outputs:
       title: ${{ steps.AITA.outputs.title }}
       body: ${{ steps.AITA.outputs.body }}
@@ -52,6 +49,7 @@ jobs:
               client_secret="${{ secrets.SECRET }}",
               user_agent="<AITABOT>:<1.0>:<1.0> (by /u/fytche)",
           )
+          subreddit = reddit.subreddit("amitheasshole")
           for submission in subreddit.controversial(limit=1, time_filter="day"):
               set_multiline_output("title", submission.title)
               set_multiline_output("body", submission.selftext)
