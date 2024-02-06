@@ -17,6 +17,9 @@ jobs:
   build:
     name: build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.9", "3.10", "3.11"]
     outputs:
       title: ${{ steps.AITA.outputs.title }}
       body: ${{ steps.AITA.outputs.body }}
