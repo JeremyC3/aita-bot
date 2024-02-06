@@ -24,8 +24,12 @@ func main() {
 		}
 		
 	for _, post := range posts {
-		fmt.Println(post.Title)
-		fmt.Println(post.Body)
+		fmt.Printf(`::set-output name=title::%s`, post.Title)
+		fmt.Print("\n")
+		fmt.Printf(`::set-output name=body::%s`, post.Body)
+		fmt.Print("\n")
+		fmt.Printf(`::set-output name=url::%s`, post.Permalink)
+		fmt.Print("\n")
 	}
 
 }

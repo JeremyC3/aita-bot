@@ -18,8 +18,12 @@ concurrency:
 
 jobs:
   build:
-    name: Build
+    name: build
     runs-on: ubuntu-latest
+    outputs:
+      title: ${{ steps.AITA.outputs.title }}
+      body: ${{ steps.AITA.outputs.body }}
+      url: ${{ steps.AITA.outputs.url }}
 
     steps:
       - uses: actions/checkout@v3
@@ -32,15 +36,22 @@ jobs:
           check-latest: true
           # cache-dependency-path: ./src/go_files/question-builder/go.sum
       - name: generate AITA post
+
         id: AITA
         run: go run .
-
+  post:
+    needs:
+      - build
+    name: post
+    runs-on: ubuntu-latest
+    steps:
       - name: post to Discord
         uses: sarisia/actions-status-discord@v1
         if: always()
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
-          title: "deploy"
-          description: "Test post pls ignore"
-          url: "https://github.com/sarisia/actions-status-discord"
+          nodetail: true
+          title: ${{ needs.build.outputs.title}}
+          description: ${{ needs.build.outputs.body}}
+          url: ${{ needs.build.outputs.url}}
           username: AITA-Bot
