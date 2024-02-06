@@ -72,4 +72,4 @@ jobs:
           description: ${{ needs.build.outputs.body}}
           url: ${{ needs.build.outputs.body}}
           username: AITA-Bot
-          avatar_url: ${{ vars.BOT_IMAGE }}
+          avatar_url: "https://cdn.discordapp.com/attachments/611011797629009920/1204525661683982386/image.png"
