@@ -30,6 +30,7 @@ func main() {
 		fmt.Print("\n")
 		fmt.Printf(`::set-output name=url::%s`, post.Permalink)
 		fmt.Print("\n")
+		fmt.Print("done attempting to set outputs")
 	}
 
 }

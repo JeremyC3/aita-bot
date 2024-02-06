@@ -52,6 +52,6 @@ jobs:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           nodetail: true
           title: ${{ needs.build.outputs.title}}
-          description: ${{ needs.build.outputs.body}}
-          url: ${{ needs.build.outputs.url}}
+          description: testing more
+          url: https://github.com/JeremyC3/aita-bot/actions/runs/7805027998/job/21288299921
           username: AITA-Bot
