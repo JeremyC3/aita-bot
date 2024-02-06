@@ -1,0 +1,73 @@
+name: AITA-Python
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    outputs:
+      title: ${{ steps.AITA.outputs.title }}
+      body: ${{ steps.AITA.outputs.body }}
+      url: ${{ steps.AITA.outputs.url }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - name: Install dependencies
+        run: |
+          pip install praw
+          pip install uuid
+          pip install os
+      - name: Run Python script
+        id: AITA
+        run: |
+          import praw
+          import uuid
+          import os
+          def set_multiline_output(name, value):
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+                  delimiter = uuid.uuid1()
+                  print(f'{name}<<{delimiter}', file=fh)
+                  print(value, file=fh)
+                  print(delimiter, file=fh)
+          reddit = praw.Reddit(
+              client_id="${{ secrets.UID }}",
+              client_secret="${{ secrets.SECRET }}",
+              user_agent="<AITABOT>:<1.0>:<1.0> (by /u/fytche)",
+          )
+          for submission in subreddit.controversial(limit=1, time_filter="day"):
+              set_multiline_output("title", submission.title)
+              set_multiline_output("body", submission.selftext)
+              set_multiline_output("url", submission.url)
+        shell: python
+  post:
+    needs:
+      - build
+    name: post
+    runs-on: ubuntu-latest
+    steps:
+      - name: post to Discord
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          nodetail: true
+          title: ${{ needs.build.outputs.title}}
+          description: ${{ needs.build.outputs.body}}
+          url: https://github.com/JeremyC3/aita-bot/actions/runs/7805027998/job/21288299921
+          username: AITA-Bot

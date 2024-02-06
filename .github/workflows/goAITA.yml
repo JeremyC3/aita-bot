@@ -1,11 +1,6 @@
-name: Vite Build + GH Pages Publish
+name: AITA-Golang
 
 on:
-  push:
-    branches: ["main"]
-  schedule:
-    # currently scheduled to run every day @ 8 AM PST
-    - cron: "0 16 * * *"
   workflow_dispatch:
 permissions:
   contents: read
