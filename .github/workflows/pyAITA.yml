@@ -50,9 +50,9 @@ jobs:
               client_secret="${{ secrets.SECRET }}",
               user_agent="<AITABOT>:<1.0>:<1.0> (by /u/fytche)",
           )
-          for submission in reddit.subreddit("amitheasshole").search("aita", sort = "comments", limit=1, time_filter = "day"):
+          for submission in reddit.subreddit("AITAFiltered").search("aita", limit=1, time_filter = "day"):
               set_multiline_output("title", submission.title)
-              set_multiline_output("body", submission.selftext)
+              set_multiline_output("body", reddit.submission(submission.crosspost_parent.split('_')[1]).selftext)
               set_multiline_output("url", submission.url)
         shell: python
   post:
