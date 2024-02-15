@@ -51,9 +51,10 @@ jobs:
               user_agent="<AITABOT>:<1.0>:<1.0> (by /u/fytche)",
           )
           for submission in reddit.subreddit("AITAFiltered").search("aita", limit=1, time_filter = "day"):
+              print(submission.title)
               set_multiline_output("title", submission.title)
               set_multiline_output("body", reddit.submission(submission.crosspost_parent.split('_')[1]).selftext)
-              set_multiline_output("url", submission.url)
+              set_multiline_output("url", "https://www.reddit.com" + submission.url)
         shell: python
   post:
     needs:
