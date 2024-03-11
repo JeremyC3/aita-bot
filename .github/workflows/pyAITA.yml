@@ -3,7 +3,7 @@ name: AITA-Python
 on:
   schedule:
     # currently scheduled to run every day @ 8 AM PST
-    - cron: "0 18 * * *"
+    - cron: "0 17 * * *"
   workflow_dispatch:
 permissions:
   contents: read
