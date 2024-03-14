@@ -15,23 +15,25 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 // It makes some properties non-nullable.
 client.once(Events.ClientReady, async (readyClient) => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-	const channel = client.channels.cache.get("480479508164771864");
-	if (channel === undefined || !channel.isTextBased()) {
-		console.log("channel is wrong");
-		process.exit();
-	} else {
-		// channel.messages.fetch();
-		const messagePromise = channel.send("content :)").catch(() => {
-			console.log("oopsies!");
-			process.exit();
-		});
-		console.log((await messagePromise).id);
-		// .then((mess) => {
-		// 	console.log(mess);
-		// 	process.exit();
-		// });
-	}
+	// const channel = client.channels.cache.get("480479508164771864");
+	// if (channel === undefined || !channel.isTextBased()) {
+	// 	console.log("channel is wrong");
+	// 	process.exit();
+	// } else {
+	// 	// channel.messages.fetch();
+	// 	const messagePromise = channel.send("content :)").catch(() => {
+	// 		console.log("oopsies!");
+	// 		process.exit();
+	// 	});
+	// 	console.log((await messagePromise).id);
+	// 	// .then((mess) => {
+	// 	// 	console.log(mess);
+	// 	// 	process.exit();
+	// 	// });
+	// }
 });
 
 // Log in to Discord with your client's token
 client.login(token);
+
+export { client };
