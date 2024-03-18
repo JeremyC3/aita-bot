@@ -1,0 +1,19 @@
+{
+	"dependencies": {
+		"discord.js": "^14.14.1",
+		"dotenv": "^16.4.5",
+		"mongoose": "^8.2.1"
+	},
+	"scripts": {
+		"sayhi": "ts-node server.ts",
+		"sendContent": "ts-node sendContent.ts",
+		"readContent": "ts-node readContent.ts",
+		"test": "ts-node mongoServ.ts"
+	},
+	"devDependencies": {
+		"@types/node": "^20.11.25",
+		"ts-node": "^10.9.2",
+		"tslib": "^2.6.2",
+		"typescript": "^5.4.2"
+	}
+}
