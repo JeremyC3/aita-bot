@@ -6,7 +6,7 @@
 	},
 	"scripts": {
 		"sayhi": "ts-node server.ts",
-		"checkContent": "ts-node sendContent.ts",
+		"sendContent": "ts-node sendContent.ts",
 		"readContent": "ts-node readContent.ts",
 		"test": "ts-node mongoServ.ts"
 	},

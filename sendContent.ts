@@ -26,6 +26,7 @@ const run = async () => {
 	) as TextChannel;
 
 	// after posting, record the post date as the datePosted, get the postID.
+	// after posting 1. update mongo with date, 2. add 3 reacts in
 	channel.send({ embeds: [aitaPost] }).then(async (channelPost) => {
 		const id = channelPost.id;
 		await Aita.findOneAndUpdate(

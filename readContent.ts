@@ -2,7 +2,11 @@ import { Client, TextChannel } from "discord.js";
 import { serverPromises } from "./delayServer";
 import { Aita } from "./models/models";
 
-const relReacts = { "🇳": "nta", "🇾": "yta", "🇪": "esh" }; // take the relevant reactions and save them
+const relReacts: Record<string, string> = {
+	"🇳": "nta",
+	"🇾": "yta",
+	"🇪": "esh",
+}; // take the relevant reactions and save them
 
 const run = async () => {
 	const client = (await serverPromises)[0] as Client<boolean>;
@@ -19,27 +23,50 @@ const run = async () => {
 		console.log("mistake happened here");
 		process.exit();
 	}
-	channel.messages
+
+	// after finding the post, remove bot reactions and then tally up the totals
+	const finished = channel.messages
 		.fetch(recentPost.postId) // change to the latest post ID
 		.then(async (msg) => {
+			console.log("fetch done");
 			// first filter to just the reactions I care about
 			// next, filter to get the user reactions
 			const reactDict: Record<string, string[]> = {};
-			for (const [reaction, key] of Object.entries(relReacts)) {
-				const emoji = msg.reactions.cache.get(reaction);
+			// track duplicates here
+			const dupes: Set<string> = new Set();
+			const cornCobs: Set<string> = new Set();
+			for (const key of ["🇾", "🇪", "🇳"]) {
+				console.log("in key line");
+				const emoji = msg.reactions.cache.get(key);
 				const userIter = await emoji?.users.fetch();
-				const userArr = userIter == undefined ? [] : [...userIter.keys()];
-
-				reactDict[key] = userArr;
+				const tempArr: string[] = [];
+				if (userIter !== undefined) {
+					for (const [user, _] of userIter) {
+						if (dupes.has(user)) {
+							cornCobs.add(user);
+						} else {
+							tempArr.push(user);
+							dupes.add(user);
+						}
+					}
+				}
+				// const stringified = relReacts[key];
+				reactDict[relReacts[key]] = tempArr;
 			}
-			console.log(reactDict);
+			// post the ratios, and update the ratios in the database.
 			await Aita.findOneAndUpdate(
 				{ postId: recentPost.postId },
 				{ nta: reactDict["nta"], yta: reactDict["yta"], esh: reactDict["esh"] }
 			);
+
 			console.log("update complete");
 		})
-		.catch((err) => console.log(err));
+		.catch((err) => {
+			console.log("oopsies");
+			console.log(err);
+		});
+	await finished;
 	console.log("done");
+	process.exit();
 };
 run();

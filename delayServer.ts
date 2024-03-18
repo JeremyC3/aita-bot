@@ -1,7 +1,3 @@
-// console.log("hello world");
-// setTimeout(() => {
-// 	console.log("delay!");
-// }, 1000);
 import { Client, Events, GatewayIntentBits, TextChannel } from "discord.js";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
