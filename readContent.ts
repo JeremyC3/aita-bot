@@ -1,4 +1,4 @@
-import { Client, TextChannel } from "discord.js";
+import { Client, TextChannel, EmbedBuilder } from "discord.js";
 import { serverPromises } from "./delayServer";
 import { Aita } from "./models/models";
 
@@ -64,6 +64,34 @@ const run = async () => {
 					nah: reactDict["nah"],
 				}
 			);
+			const totalReacts = dupes.size - 1;
+			const aitaPost = new EmbedBuilder()
+				.setTitle("Today's AITA results:")
+				.setDescription(
+					"note: for multiple reactions from the same user, the folloiwng priority will be used: yta > nta > esh > nah"
+				)
+				.addFields(
+					{
+						name: "YTA:",
+						value: `${reactDict["yta"].length / totalReacts}`,
+						inline: true,
+					},
+					{
+						name: "NTA:",
+						value: `${reactDict["nta"].length / totalReacts}`,
+						inline: true,
+					},
+					{
+						name: "ESH:",
+						value: `${reactDict["esh"].length / totalReacts}`,
+						inline: true,
+					},
+					{
+						name: "NAH:",
+						value: `${reactDict["nah"].length / totalReacts}`,
+						inline: true,
+					}
+				);
 
 			console.log("update complete");
 		})
