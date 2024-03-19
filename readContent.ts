@@ -6,6 +6,7 @@ const relReacts: Record<string, string> = {
 	"🇳": "nta",
 	"🇾": "yta",
 	"🇪": "esh",
+	"🥱": "nah",
 }; // take the relevant reactions and save them
 
 const run = async () => {
@@ -35,7 +36,7 @@ const run = async () => {
 			// track duplicates here
 			const dupes: Set<string> = new Set("1204486225709236295");
 			const cornCobs: Set<string> = new Set();
-			for (const key of ["🇾", "🇪", "🇳"]) {
+			for (const key of ["🇾", "🇪", "🇳", "🥱"]) {
 				console.log("in key line");
 				const emoji = msg.reactions.cache.get(key);
 				const userIter = await emoji?.users.fetch();
@@ -56,7 +57,12 @@ const run = async () => {
 			// post the ratios, and update the ratios in the database.
 			await Aita.findOneAndUpdate(
 				{ postId: recentPost.postId },
-				{ nta: reactDict["nta"], yta: reactDict["yta"], esh: reactDict["esh"] }
+				{
+					nta: reactDict["nta"],
+					yta: reactDict["yta"],
+					esh: reactDict["esh"],
+					nah: reactDict["nah"],
+				}
 			);
 
 			console.log("update complete");
