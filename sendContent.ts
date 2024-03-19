@@ -6,7 +6,9 @@ const run = async () => {
 	const client = (await serverPromises)[0] as Client<boolean>;
 	// pull a unposted post, then create the new embed based on it.
 	const randomPost = await Aita.aggregate([
-		{ $match: { datePosted: null } },
+		{
+			$match: { datePosted: null, text: { $nin: ["[deleted]", "[removed]"] } },
+		},
 		{ $sample: { size: 1 } },
 	]);
 	if (randomPost.length == 0) {
