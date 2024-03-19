@@ -1,9 +1,9 @@
 name: AITA-Python
-
+# Tentatively disabled, will manually update database for now.
 on:
-  schedule:
-    # currently scheduled to run every day @ 8 AM PST
-    - cron: "0 17 * * *"
+  # schedule:
+  #   # currently scheduled to run every day @ 8 AM PST
+  #   - cron: "0 17 * * *"
   workflow_dispatch:
 permissions:
   contents: read

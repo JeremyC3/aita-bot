@@ -11,7 +11,7 @@ const relReacts: Record<string, string> = {
 const run = async () => {
 	const client = (await serverPromises)[0] as Client<boolean>;
 	const channel = client.channels.cache.get(
-		"480479508164771864" // this is my personal value and needs to be changed
+		"684868831814222019" // this is my personal value and needs to be changed
 	) as TextChannel;
 	const latest = await Aita.find({})
 		.where({ datePosted: { $ne: null } })
@@ -33,7 +33,7 @@ const run = async () => {
 			// next, filter to get the user reactions
 			const reactDict: Record<string, string[]> = {};
 			// track duplicates here
-			const dupes: Set<string> = new Set();
+			const dupes: Set<string> = new Set("1204486225709236295");
 			const cornCobs: Set<string> = new Set();
 			for (const key of ["🇾", "🇪", "🇳"]) {
 				console.log("in key line");
