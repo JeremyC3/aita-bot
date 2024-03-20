@@ -49,7 +49,10 @@ const run = async () => {
 		await Aita.findOneAndUpdate(
 			{ url: post.url },
 			{ postId: id, datePosted: new Date() }
-		).then(() => console.log("donezo"));
+		).then(() => {
+			console.log("donezo");
+			process.exit();
+		});
 	});
 };
 run();
