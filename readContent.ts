@@ -12,7 +12,7 @@ const relReacts: Record<string, string> = {
 const run = async () => {
 	const client = (await serverPromises)[0] as Client<boolean>;
 	const channel = client.channels.cache.get(
-		"684868831814222019" // this is my personal value and needs to be changed
+		"684868831814222019" // this is my personal value and needs to be changed (480479508164771864)
 	) as TextChannel;
 	const latest = await Aita.find({})
 		.where({ datePosted: { $ne: null } })
@@ -34,7 +34,7 @@ const run = async () => {
 			// next, filter to get the user reactions
 			const reactDict: Record<string, string[]> = {};
 			// track duplicates here
-			const dupes: Set<string> = new Set("1204486225709236295");
+			const dupes: Set<string> = new Set(["1204486225709236295"]);
 			const cornCobs: Set<string> = new Set();
 			for (const key of ["🇾", "🇪", "🇳", "🥱"]) {
 				console.log("in key line");
@@ -68,31 +68,38 @@ const run = async () => {
 			const aitaPost = new EmbedBuilder()
 				.setTitle("Today's AITA results:")
 				.setDescription(
-					"note: for multiple reactions from the same user, the folloiwng priority will be used: yta > nta > esh > nah"
+					"NOTE: for multiple reactions from the same user, the folloiwng priority will be used: yta > nta > esh > nah"
 				)
 				.addFields(
 					{
 						name: "YTA:",
-						value: `${reactDict["yta"].length / totalReacts}`,
+						value:
+							((reactDict["yta"].length * 100) / totalReacts).toFixed(2) + "%",
 						inline: true,
 					},
 					{
 						name: "NTA:",
-						value: `${reactDict["nta"].length / totalReacts}`,
+						value:
+							((reactDict["nta"].length * 100) / totalReacts).toFixed(2) + "%",
 						inline: true,
 					},
 					{
 						name: "ESH:",
-						value: `${reactDict["esh"].length / totalReacts}`,
+						value:
+							((reactDict["esh"].length * 100) / totalReacts).toFixed(2) + "%",
 						inline: true,
 					},
 					{
 						name: "NAH:",
-						value: `${reactDict["nah"].length / totalReacts}`,
+						value:
+							((reactDict["nah"].length * 100) / totalReacts).toFixed(2) + "%",
 						inline: true,
 					}
 				);
-
+			await channel.send({
+				embeds: [aitaPost],
+				reply: { failIfNotExists: false, messageReference: msg },
+			});
 			console.log("update complete");
 		})
 		.catch((err) => {
