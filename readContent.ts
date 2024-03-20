@@ -92,7 +92,7 @@ const run = async () => {
 						inline: true,
 					}
 				);
-
+			channel.send({ embeds: [aitaPost] });
 			console.log("update complete");
 		})
 		.catch((err) => {
