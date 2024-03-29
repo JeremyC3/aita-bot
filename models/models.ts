@@ -10,6 +10,7 @@ interface IAita {
 	yta?: string[];
 	nta?: string[];
 	esh?: string[];
+	nah?: string[];
 }
 
 // first category is to do is store each post made
@@ -24,6 +25,7 @@ const aitaSchema = new Schema<IAita>({
 	yta: { type: [String] },
 	nta: { type: [String] },
 	esh: { type: [String] },
+	nah: { type: [String] },
 });
 
 // later on, I need to then create a repo of a bunch of posts for my own use
