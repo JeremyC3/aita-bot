@@ -1,6 +1,13 @@
-import { Client, TextChannel, EmbedBuilder, Embed } from "discord.js";
+import {
+	Client,
+	TextChannel,
+	EmbedBuilder,
+	Embed,
+	APIEmbedField,
+} from "discord.js";
 import { serverPromises } from "./delayServer";
 import { Aita } from "./models/models";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const run = async () => {
 	const client = (await serverPromises)[0] as Client<boolean>;
@@ -15,23 +22,38 @@ const run = async () => {
 		console.log("no posts");
 		process.exit();
 	}
+	const embedFields: APIEmbedField[] = [
+		{
+			name: "Reactions will be collected at:",
+			value: "5:00 PDT",
+			inline: true,
+		},
+		{
+			name: "Tracked Reactions:",
+			value: "🇾ta,🇳ta,🇪sh, 🥱 = nah",
+			inline: true,
+		},
+	];
 	const post = randomPost[0];
+	const api = process.env.GEMINI_KEY;
+	if (api !== undefined) {
+		const genAI = new GoogleGenerativeAI(api);
+		const model = genAI.getGenerativeModel({ model: "MODEL_NAME" });
+		const prompt =
+			"Summarize in uwu language in 2 sentences but minus any horny pretexts" +
+			post.text;
+		const result = await model.generateContent(prompt);
+		const response = result.response;
+		const text = response.text();
+		embedFields.unshift({ name: "Summary:", value: text });
+	}
+
 	const aitaPost = new EmbedBuilder()
 		.setTitle(post.title)
 		.setDescription(post.text)
 		.setURL(post.url)
-		.addFields(
-			{
-				name: "Reactions will be collected at:",
-				value: "5:00 PDT",
-				inline: true,
-			},
-			{
-				name: "Tracked Reactions:",
-				value: "🇾ta,🇳ta,🇪sh, 🥱 = nah",
-				inline: true,
-			}
-		);
+		.addFields(embedFields);
+	// make and then tack on the summary
 
 	// pull discord channel info out
 	const channel = client.channels.cache.get(
