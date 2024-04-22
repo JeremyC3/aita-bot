@@ -3,7 +3,7 @@ name: Post daily AITA
 on:
   schedule:
     # currently scheduled to run every day @ midnight PST
-    - cron: "0 17 * * *"
+    - cron: "0 17 * * 1-5"
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,3 +25,4 @@ jobs:
         env:
           TOKEN: ${{secrets.TOKEN}}
           MONGO_URI: ${{secrets.MONGO_URI}}
+          GEMINI_KEY: ${{secrets.GEMINI_KEY}}
