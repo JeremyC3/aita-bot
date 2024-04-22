@@ -68,7 +68,7 @@ const run = async () => {
 			const aitaPost = new EmbedBuilder()
 				.setTitle("Today's AITA results:")
 				.setDescription(
-					"NOTE: for multiple reactions from the same user, the folloiwng priority will be used: yta > nta > esh > nah"
+					"NOTE: for multiple reactions from the same user, the following priority will be used: yta > nta > esh > nah"
 				)
 				.addFields(
 					{
