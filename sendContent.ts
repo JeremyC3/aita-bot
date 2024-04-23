@@ -38,7 +38,7 @@ const run = async () => {
 	const api = process.env.GEMINI_KEY;
 	if (api !== undefined) {
 		const genAI = new GoogleGenerativeAI(api);
-		const model = genAI.getGenerativeModel({ model: "MODEL_NAME" });
+		const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 		const prompt =
 			"Summarize in uwu language in 2 sentences but minus any horny pretexts" +
 			post.text;
