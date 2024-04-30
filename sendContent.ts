@@ -7,7 +7,11 @@ import {
 } from "discord.js";
 import { serverPromises } from "./delayServer";
 import { Aita } from "./models/models";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import {
+	GoogleGenerativeAI,
+	HarmBlockThreshold,
+	HarmCategory,
+} from "@google/generative-ai";
 
 const run = async () => {
 	const client = (await serverPromises)[0] as Client<boolean>;
@@ -35,14 +39,34 @@ const run = async () => {
 		},
 	];
 	const post = randomPost[0];
+
+	const safetySettings = [
+		{
+			category: HarmCategory.HARM_CATEGORY_HARASSMENT,
+			threshold: HarmBlockThreshold.BLOCK_NONE,
+		},
+		{
+			category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
+			threshold: HarmBlockThreshold.BLOCK_NONE,
+		},
+		{
+			category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
+			threshold: HarmBlockThreshold.BLOCK_NONE,
+		},
+		{
+			category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
+			threshold: HarmBlockThreshold.BLOCK_NONE,
+		},
+	];
 	const api = process.env.GEMINI_KEY;
 	if (api !== undefined) {
 		const genAI = new GoogleGenerativeAI(api);
 		const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+		const chat = model.startChat({ safetySettings });
 		const prompt =
 			"Summarize in uwu language in 2 sentences but minus any horny pretexts" +
 			post.text;
-		const result = await model.generateContent(prompt);
+		const result = await chat.sendMessage(prompt);
 		const response = result.response;
 		const text = response.text();
 		embedFields.unshift({ name: "Summary:", value: text });
