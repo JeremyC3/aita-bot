@@ -3,7 +3,7 @@ name: Read daily AITA
 on:
   schedule:
     # currently scheduled to run every day @ 5 PDT
-    - cron: "0 0 * * 1-5"
+    - cron: "0 0 * * 2-6"
   workflow_dispatch:
 permissions:
   contents: read
