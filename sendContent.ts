@@ -15,6 +15,14 @@ import {
 
 const run = async () => {
 	const client = (await serverPromises)[0] as Client<boolean>;
+
+	// pull discord channel info out
+	const channel = client.channels.cache.get(
+		"684868831814222019"
+	) as TextChannel;
+
+	channel.sendTyping();
+
 	// pull a unposted post, then create the new embed based on it.
 	const randomPost = await Aita.aggregate([
 		{
@@ -78,11 +86,17 @@ const run = async () => {
 		.setURL(post.url)
 		.addFields(embedFields);
 	// make and then tack on the summary
+	
+	// check the latest post time, if it's within a minute don't post until the post timing hits
+	setInterval(()=>{
+		const lastMess = channel.lastMessage?.createdTimestamp
+		
+		if(lastMess == undefined){
+			return
+		} else{
 
-	// pull discord channel info out
-	const channel = client.channels.cache.get(
-		"684868831814222019"
-	) as TextChannel;
+		}
+	}, 60000)
 
 	// after posting, record the post date as the datePosted, get the postID.
 	// after posting 1. update mongo with date, 2. add 3 reacts in
