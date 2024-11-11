@@ -3,7 +3,7 @@ name: Post daily AITA
 on:
   schedule:
     # currently scheduled to run every day @ midnight PST
-    - cron: "0 17 * * 1-5"
+    - cron: "0 18 * * 1-5"
   workflow_dispatch:
 permissions:
   contents: read
