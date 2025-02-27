@@ -61,13 +61,13 @@ const run = async () => {
 	const api = process.env.GEMINI_KEY;
 	if (api !== undefined) {
 		const genAI = new GoogleGenerativeAI(api);
-		const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+		const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 		const chat = model.startChat({ safetySettings });
 		const prompt =
-			"Summarize in uwu language in 2 sentences but minus any horny pretexts" +
-			post.text;
+			"You are a bot dedicated to summarizing messages in an 'uwu' fashion. Please summarize the next message I send into two sentences.";
 		const result = await chat.sendMessage(prompt);
-		const response = result.response;
+		const secondRes = await chat.sendMessage(post.text);
+		const response = secondRes.response;
 		const text = response.text();
 		embedFields.unshift({ name: "Summary:", value: text });
 	}
